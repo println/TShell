@@ -8,8 +8,8 @@ public class TShell {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		TReader reader = new TReader();
-		TControl control = new TControl();
+		Reader reader = new Reader();
+		Controller control = new Controller();
 		
 		while(reader.hasParam())
 			control.process(reader.getParams());
@@ -21,27 +21,27 @@ public class TShell {
 }
 
 
-class TTaskData{
+class TData{
 	private static int index = 0;
 	
-	public TTaskData(){
+	public TData(){
 		index++;
 		if(index > 9)
 			index = 0;
 	}
 }
 
-class TReader{
+class Reader{
 	public boolean hasParam(){
 		return false;
 	}
-	public TTaskData[] getParams(){
+	public TData[] getParams(){
 		return null;
 	}
 }
 
-class TControl{
-	public void process(TTaskData data[]){
+class Controller{
+	public void process(TData data[]){
 		
 	}
 }
