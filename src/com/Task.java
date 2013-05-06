@@ -1,12 +1,11 @@
 package com;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 
-class Task implements Callable<Boolean> {
+class Task implements Callable<String> {
 	private String command;
 	private int timeout;
 
@@ -21,7 +20,10 @@ class Task implements Callable<Boolean> {
 			index = 0;
 	}
 
-	public Boolean call() {
+	public String call() {
+		long elapsedTime = 0;
+		boolean killed = false;
+		
 		try {
 			Process process = Runtime.getRuntime().exec(this.command);
 			InputStreamReader ins = new InputStreamReader(process.getInputStream());
@@ -32,15 +34,20 @@ class Task implements Callable<Boolean> {
 			long finish = now + timeout;
 
 			Thread console = this.consoleText(process,in);
-			console.start();
+			console.start();			
 			
 			while (this.isAlive(process)) {
-				Thread.sleep(100);
+				Thread.sleep(100);				 
 				if (System.currentTimeMillis() >= finish){
+					elapsedTime = timeout;
+					killed = true;
 					console.interrupt();
 					process.destroy();					
 				}
 			}
+			
+			if(elapsedTime == 0)
+				elapsedTime = System.currentTimeMillis() - now;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -50,7 +57,7 @@ class Task implements Callable<Boolean> {
 			e.printStackTrace();
 		}
 
-		return null;
+		return this.generateSumary(command, elapsedTime, killed);
 
 	}
 
@@ -81,6 +88,19 @@ class Task implements Callable<Boolean> {
 		} catch (IllegalThreadStateException e) {
 			return true;
 		}
+	}
+	
+	private String generateSumary(String command, long duration, boolean killed){
+		StringBuilder sumary = new StringBuilder();
+		sumary.append('*');
+		sumary.append(" ");
+		sumary.append(command);		
+		sumary.append(" ");
+		sumary.append(duration);
+		sumary.append("ms");
+		sumary.append(" ");
+		sumary.append(killed ? "timeout" : "executou");
+		return sumary.toString();
 	}
 
 }
