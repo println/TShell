@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 class Controller {
-	StringBuilder sumary = new StringBuilder();
+	StringBuilder summary = new StringBuilder();
 
 	public void process(Profile profile) {
 		if (profile.isConcurrent())
@@ -16,8 +16,8 @@ class Controller {
 		else
 			this.sequential(profile.getTask());
 
-		System.out.println(this.sumary.toString());
-		this.sumary.setLength(0);
+		System.out.println(this.summary.toString());
+		this.summary.setLength(0);
 	}
 
 	private void concurrent(Task[] tasks) {
@@ -46,10 +46,10 @@ class Controller {
 
 	private void addResult(String result) {
 
-		if (this.sumary.length() == 0)
-			this.sumary.append("\n\n");
+		if (this.summary.length() == 0)
+			this.summary.append("\n\n");
 
-		this.sumary.append(result);
-		this.sumary.append('\n');
+		this.summary.append(result);
+		this.summary.append('\n');
 	}
 }

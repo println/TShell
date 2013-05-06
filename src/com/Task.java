@@ -57,7 +57,7 @@ class Task implements Callable<String> {
 			e.printStackTrace();
 		}
 
-		return this.generateSumary(command, elapsedTime, killed);
+		return this.generateSummary(command, elapsedTime, killed);
 
 	}
 
@@ -90,17 +90,17 @@ class Task implements Callable<String> {
 		}
 	}
 	
-	private String generateSumary(String command, long duration, boolean killed){
-		StringBuilder sumary = new StringBuilder();
-		sumary.append('*');
-		sumary.append(" ");
-		sumary.append(command);		
-		sumary.append(" ");
-		sumary.append(duration);
-		sumary.append("ms");
-		sumary.append(" ");
-		sumary.append(killed ? "timeout" : "executou");
-		return sumary.toString();
+	private String generateSummary(String command, long duration, boolean killed){
+		StringBuilder summary = new StringBuilder();
+		summary.append('*');
+		summary.append(" ");
+		summary.append(command);		
+		summary.append(" ");
+		summary.append(duration);
+		summary.append("ms");
+		summary.append(" ");
+		summary.append(killed ? "timeout" : "executou");
+		return summary.toString();
 	}
 
 }
