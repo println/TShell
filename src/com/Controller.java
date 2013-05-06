@@ -23,7 +23,7 @@ class Controller {
 			List<Future<Boolean>> futures = executor.invokeAll(list);
 			for(Future<Boolean> future : futures)
 		        future.get();
-		        
+		    executor.shutdownNow();  
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

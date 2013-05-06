@@ -12,7 +12,7 @@ public class TShell {
 
 		while (reader.hasParam())
 			control.process(reader.getProfile());
-
+		
 	}
 
 }
