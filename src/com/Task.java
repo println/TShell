@@ -68,9 +68,8 @@ class Task implements Callable<String> {
 				try {
 					String output;
 
-					while ((output = in.readLine()) != null) {
+					while ((output = in.readLine()) != null)
 						System.out.println(output);
-					}
 
 					in.close();
 				} catch (IOException e) {
@@ -90,16 +89,16 @@ class Task implements Callable<String> {
 		}
 	}
 	
-	private String generateSummary(String command, long duration, boolean killed){
+	private String generateSummary(String command, long length, boolean killed){
 		StringBuilder summary = new StringBuilder();
 		summary.append('*');
 		summary.append(" ");
 		summary.append(command);		
 		summary.append(" ");
-		summary.append(duration);
+		summary.append(length);
 		summary.append("ms");
 		summary.append(" ");
-		summary.append(killed ? "timeout" : "executou");
+		summary.append(killed ? "timeout" : "");
 		return summary.toString();
 	}
 

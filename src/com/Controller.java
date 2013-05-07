@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 class Controller {
-	StringBuilder summary = new StringBuilder();
+	private StringBuilder summary = new StringBuilder();
 
 	public void process(Profile profile) {
 		if (profile.isConcurrent())
@@ -26,8 +26,10 @@ class Controller {
 
 		try {
 			List<Future<String>> futures = executor.invokeAll(list);
+			
 			for (Future<String> future : futures)
 				addResult(future.get());
+			
 			executor.shutdownNow();
 
 		} catch (InterruptedException e) {
