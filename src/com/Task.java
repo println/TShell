@@ -97,8 +97,10 @@ class Task implements Callable<String> {
 		summary.append(" ");
 		summary.append(length);
 		summary.append("ms");
-		summary.append(" ");
-		summary.append(killed ? "timeout" : "");
+		
+		if(killed)
+			summary.append(" timeout");
+		
 		return summary.toString();
 	}
 
