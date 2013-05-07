@@ -1,4 +1,4 @@
 TShell
 ======
 
-Unix command interpreter
+Shell Unix/Win command interpreter
