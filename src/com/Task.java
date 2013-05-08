@@ -12,18 +12,17 @@ class Task implements Callable<String> {
 	private String command;
 	private int timeout;
 
-	private static int index = 0;
+	private static int index;
 
 	public Task(String command, int timeout) {
 		this.command = command;
 		this.timeout = timeout;
 
-		index++;
-		if (index > 9)
+		if (++index > 9)
 			index = 0;
 	}
 
-	public String call() {
+	public String call() throws IOException{
 		long elapsedTime = 0;
 		boolean killed = false;
 
@@ -55,9 +54,6 @@ class Task implements Callable<String> {
 			if (elapsedTime == 0)
 				elapsedTime = System.currentTimeMillis() - now;
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,7 +63,7 @@ class Task implements Callable<String> {
 
 	}
 
-	private Thread outputScanning(final Process process) {
+	private Thread outputScanning(Process process) {
 		final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 		final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -99,7 +95,7 @@ class Task implements Callable<String> {
 		});
 	}
 
-	private Thread inputScanning(final Process process) {
+	private Thread inputScanning(Process process) {
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(
 				process.getInputStream()));
 		return (new Thread("reader") {

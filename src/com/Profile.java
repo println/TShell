@@ -1,20 +1,42 @@
 package com;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 class Profile {
-	private String command;
 	private int loop;
 	private int timeout;
 	private boolean mode;
+	private String[] commands;
 
 	public void setCommand(String command) {
-		this.command = command;
+		if (this.commands == null) {
+			List<String> commands = new ArrayList<String>();
+			for (String temp : command.split(";")) {
+				temp = temp.replaceAll("^\\s+", "").replaceAll("\\s+$","");				
+				if (temp.length() > 0)
+					commands.add(temp);
+			}
+			if(commands.size() > 0)
+				this.commands = (String[]) commands.toArray(new String[commands.size()]);
+		}		
+	}
+	
+	public boolean isValid(){
+		 return this.commands != null;
 	}
 
 	public boolean isConcurrent() {
 		return mode;
 	}
+
 	public boolean isMulti() {
-		return (this.getCommands().length > 1);
+		if (this.commands.length > 1)
+			return true;
+		if (this.loop > 1)
+			return true;
+		return false;
 	}
 
 	public void setMode(boolean mode) {
@@ -31,7 +53,7 @@ class Profile {
 
 	public Task[] getTask() {
 
-		String[] cmdtemp = this.getCommands();
+		String[] cmdtemp = this.commands;
 
 		String[] cmds;
 
@@ -51,16 +73,13 @@ class Profile {
 		this.reset();
 
 		return tasks;
-	}
-	
-	private String[] getCommands(){
-		return this.command.split(";");
-	}
+	}	
+
 	private void reset() {
-		this.command = null;
 		this.loop = 0;
 		this.timeout = 0;
 		this.mode = false;
+		this.commands = null;
 	}
 
 }

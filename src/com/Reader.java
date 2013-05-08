@@ -12,7 +12,7 @@ class Reader {
 			this.getMode();
 			this.setTimeout();
 		} catch (ReaderException e) {
-			System.out.println("bug do milenio");
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -23,15 +23,14 @@ class Reader {
 	}
 
 	private void getCommands() throws ReaderException {
-		String cmd = collector("comando(s)");
-		if (cmd.length() == 0)
-			throw new ReaderException("nao foi possivel ler comandos");
-		else
-			this.profile.setCommand(cmd);
+		this.profile.setCommand(this.collector("comando(s)"));
+		if (!this.profile.isValid())
+			throw new ReaderException("Aplicação finalizada!");
+			
 	}
 
 	private void takeLoop() {
-		if (!profile.isMulti()) {
+		if (!this.profile.isMulti()) {
 			try {
 				this.profile.setLoop(Integer.parseInt(collector("loopes")));
 			} catch (NumberFormatException e) {
@@ -42,9 +41,11 @@ class Reader {
 	}
 
 	private void getMode() {
-		String input = collector("[P]aralelo ou [S]equencial");
-		if (input.toUpperCase().charAt(0) == 'P')
-			this.profile.setMode(true);
+		if (this.profile.isMulti()) {
+			String input = collector("[P]aralelo ou [S]equencial");
+			if (input.toUpperCase().charAt(0) == 'P')
+				this.profile.setMode(true);
+		}
 	}
 
 	private void setTimeout() {
