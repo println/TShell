@@ -12,7 +12,7 @@ class Reader {
 			this.getMode();
 			this.setTimeout();
 		} catch (ReaderException e) {
-			System.out.print("bug do milenio");
+			System.out.println("bug do milenio");
 			return false;
 		}
 		return true;
@@ -25,7 +25,7 @@ class Reader {
 	private void getCommands() throws ReaderException {
 		String cmd = collector("comando(s)");
 		if (cmd.length() == 0)
-			throw new ReaderException("não foi possivel ler comandos");
+			throw new ReaderException("nao foi possivel ler comandos");
 		else
 			this.profile.setCommand(cmd);
 	}
@@ -35,7 +35,7 @@ class Reader {
 			try {
 				this.profile.setLoop(Integer.parseInt(collector("loopes")));
 			} catch (NumberFormatException e) {
-				System.out.println("Somente números!");
+				System.out.println("Somente numeros!");
 				this.takeLoop();
 			}
 		}
@@ -51,7 +51,7 @@ class Reader {
 		try {
 			this.profile.setTimeout(Integer.parseInt(collector("timeout")));
 		} catch (NumberFormatException e) {
-			System.out.println("Somente números!");
+			System.out.println("Somente numeros!");
 			this.setTimeout();
 		}
 	}

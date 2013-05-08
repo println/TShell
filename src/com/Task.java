@@ -1,8 +1,11 @@
 package com;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 class Task implements Callable<String> {
@@ -23,30 +26,33 @@ class Task implements Callable<String> {
 	public String call() {
 		long elapsedTime = 0;
 		boolean killed = false;
-		
+
 		try {
 			Process process = Runtime.getRuntime().exec(this.command);
-			InputStreamReader ins = new InputStreamReader(process.getInputStream());
-			BufferedReader in = new BufferedReader(ins);
 
 			long now = System.currentTimeMillis();
 			long timeout = 1000 * this.timeout;
 			long finish = now + timeout;
 
-			Thread console = this.consoleText(process,in);
-			console.start();			
-			
+			Thread consoleInput = this.inputObserver(process);
+			//Thread consoleOutput = this.outputObserver(process);
+			consoleInput.start();
+			//consoleOutput.start();
+
 			while (this.isAlive(process)) {
-				Thread.sleep(100);				 
-				if (System.currentTimeMillis() >= finish){
+				Thread.sleep(100);
+				if (System.currentTimeMillis() >= finish) {
 					elapsedTime = timeout;
 					killed = true;
-					console.interrupt();
-					process.destroy();					
+					//consoleOutput.interrupt();
+					consoleInput.interrupt();
+
+					process.destroy();
+
 				}
 			}
-			
-			if(elapsedTime == 0)
+
+			if (elapsedTime == 0)
 				elapsedTime = System.currentTimeMillis() - now;
 
 		} catch (IOException e) {
@@ -61,17 +67,51 @@ class Task implements Callable<String> {
 
 	}
 
-	private Thread consoleText(final Process process, final BufferedReader in) {
-		return (new Thread() {
+	private Thread outputObserver(final Process process) {
+		final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+		final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		return (new Thread("writer") {
+			@Override
+			public void run() {
+				while (!this.isInterrupted()) {
+					try {
+						while (!br.ready()) {
+							if (this.isInterrupted())
+								return;
+							Thread.sleep(200);
+
+						}
+						String input;
+						input = br.readLine();
+						input += "\n";
+						writer.write(input);
+						writer.flush();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						return;
+					}
+				}
+			}
+
+		});
+	}
+
+	private Thread inputObserver(final Process process) {
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(
+				process.getInputStream()));
+		return (new Thread("reader") {
 			@Override
 			public void run() {
 				try {
-					String output;
+					String input;
 
-					while ((output = in.readLine()) != null)
-						System.out.println(output);
+					while ((input = reader.readLine()) != null)
+						System.out.println(input);
 
-					in.close();
+					reader.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -88,19 +128,19 @@ class Task implements Callable<String> {
 			return true;
 		}
 	}
-	
-	private String generateSummary(String command, long length, boolean killed){
+
+	private String generateSummary(String command, long length, boolean killed) {
 		StringBuilder summary = new StringBuilder();
 		summary.append('*');
 		summary.append(" ");
-		summary.append(command);		
+		summary.append(command);
 		summary.append(" ");
 		summary.append(length);
 		summary.append("ms");
-		
-		if(killed)
+
+		if (killed)
 			summary.append(" timeout");
-		
+
 		return summary.toString();
 	}
 
