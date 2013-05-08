@@ -16,9 +16,9 @@ class Controller {
 		try {
 
 			if (profile.isConcurrent())
-				this.concurrent(profile.getTask());
+				this.runConcurrent(profile.getTask());
 			else
-				this.sequential(profile.getTask());
+				this.runSequential(profile.getTask());
 
 			System.out.println(this.summary.toString());
 
@@ -29,7 +29,7 @@ class Controller {
 		this.summary.setLength(0);
 	}
 
-	private void concurrent(Task[] tasks) throws IOException {
+	private void runConcurrent(Task[] tasks) throws IOException {
 		ExecutorService executor = Executors.newFixedThreadPool(tasks.length);
 		List<Task> list = Arrays.asList(tasks);
 
@@ -50,7 +50,7 @@ class Controller {
 		}
 	}
 
-	private void sequential(Task[] tasks) throws IOException {
+	private void runSequential(Task[] tasks) throws IOException {
 		for (Task task : tasks)
 			addResult(task.call());
 	}

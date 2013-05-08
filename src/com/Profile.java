@@ -52,17 +52,14 @@ class Profile {
 	}
 
 	public Task[] getTask() {
-
-		String[] cmdtemp = this.commands;
-
 		String[] cmds;
 
-		if (cmdtemp.length == 1 && loop > 1) {
+		if (this.commands.length == 1 && loop > 1) {
 			cmds = new String[loop];
 			for (int i = 0; i < loop; i++)
-				cmds[i] = cmdtemp[0];
+				cmds[i] = this.commands[0];
 		} else {
-			cmds = cmdtemp;
+			cmds = this.commands;
 		}
 
 		Task[] tasks = new Task[cmds.length];
