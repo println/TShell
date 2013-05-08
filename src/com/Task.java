@@ -34,8 +34,8 @@ class Task implements Callable<String> {
 			long timeout = 1000 * this.timeout;
 			long finish = now + timeout;
 
-			Thread consoleInput = this.inputScan(process);
-			//Thread consoleOutput = this.outputObserver(process);
+			Thread consoleInput = this.inputScanning(process);
+			//Thread consoleOutput = this.outputScanning(process);
 			consoleInput.start();
 			//consoleOutput.start();
 
@@ -67,7 +67,7 @@ class Task implements Callable<String> {
 
 	}
 
-	private Thread outputScan(final Process process) {
+	private Thread outputScanning(final Process process) {
 		final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 		final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -99,7 +99,7 @@ class Task implements Callable<String> {
 		});
 	}
 
-	private Thread inputScan(final Process process) {
+	private Thread inputScanning(final Process process) {
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(
 				process.getInputStream()));
 		return (new Thread("reader") {
