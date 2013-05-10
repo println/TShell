@@ -1,6 +1,5 @@
 package com;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -13,23 +12,17 @@ class Controller {
 
 	public void process(Profile profile) {
 
-		try {
+		if (profile.isConcurrent())
+			this.runConcurrent(profile.getTask());
+		else
+			this.runSequential(profile.getTask());
 
-			if (profile.isConcurrent())
-				this.runConcurrent(profile.getTask());
-			else
-				this.runSequential(profile.getTask());
-
-			System.out.println(this.summary.toString());
-
-		} catch (IOException e) {
-			System.out.println("Error ao executar comando!");
-		}
+		System.out.println(this.summary.toString());
 
 		this.summary.setLength(0);
 	}
 
-	private void runConcurrent(Task[] tasks) throws IOException {
+	private void runConcurrent(Task[] tasks) {
 		ExecutorService executor = Executors.newFixedThreadPool(tasks.length);
 		List<Task> list = Arrays.asList(tasks);
 
@@ -50,7 +43,7 @@ class Controller {
 		}
 	}
 
-	private void runSequential(Task[] tasks) throws IOException {
+	private void runSequential(Task[] tasks){
 		for (Task task : tasks)
 			addResult(task.call());
 	}

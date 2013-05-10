@@ -21,9 +21,10 @@ class Task implements Callable<String> {
 			index = 0;
 	}
 
-	public String call() throws IOException{
+	public String call(){
 		long elapsedTime = 0;
 		boolean killed = false;
+		boolean error = false;
 
 		try {
 			Process process = Runtime.getRuntime().exec(this.command);
@@ -56,10 +57,10 @@ class Task implements Callable<String> {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
-		return this.generateSummary(command, elapsedTime, killed);
-
+		}catch (IOException e) {
+			error = true;
+		}	
+		return this.generateSummary(command, elapsedTime, killed,error);
 	}
 
 	@SuppressWarnings("unused")
@@ -125,17 +126,21 @@ class Task implements Callable<String> {
 		}
 	}
 
-	private String generateSummary(String command, long length, boolean killed) {
+	private String generateSummary(String command, long length, boolean killed, boolean err) {
 		StringBuilder summary = new StringBuilder();
 		summary.append('*');
 		summary.append(" ");
 		summary.append(command);
 		summary.append(" ");
-		summary.append(length);
-		summary.append("ms");
-
-		if (killed)
-			summary.append(" timeout");
+		if(!err){
+			summary.append(length);
+			summary.append("ms");
+	
+			if (killed)
+				summary.append(" timeout");
+		}else{
+			summary.append("error!");
+		}	
 
 		return summary.toString();
 	}
