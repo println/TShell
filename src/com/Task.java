@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 class Task implements Callable<String> {
@@ -63,6 +62,7 @@ class Task implements Callable<String> {
 
 	}
 
+	@SuppressWarnings("unused")
 	private Thread outputScanning(Process process) {
 		final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 		final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

@@ -7,10 +7,10 @@ class Reader {
 
 	public boolean hasParam() {
 		try {
-			this.getCommands();
-			this.takeLoop();
-			this.getMode();
-			this.setTimeout();
+			this.askCommands();
+			this.askLoop();
+			this.askMode();
+			this.askTimeout();
 		} catch (ReaderException e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -22,25 +22,25 @@ class Reader {
 		return this.profile;
 	}
 
-	private void getCommands() throws ReaderException {
+	private void askCommands() throws ReaderException {
 		this.profile.setCommand(this.takeUserInstruction("comando(s)"));
 		if (!this.profile.isValid())
 			throw new ReaderException("Aplicação finalizada!");
 			
 	}
 
-	private void takeLoop() {
+	private void askLoop() {
 		if (!this.profile.isMulti()) {
 			try {
 				this.profile.setLoop(Integer.parseInt(takeUserInstruction("loopes")));
 			} catch (NumberFormatException e) {
 				System.out.println("Somente numeros!");
-				this.takeLoop();
+				this.askLoop();
 			}
 		}
 	}
 
-	private void getMode() {
+	private void askMode() {
 		if (this.profile.isMulti()) {
 			String input = takeUserInstruction("[P]aralelo ou [S]equencial");
 			if (input.toUpperCase().charAt(0) == 'P')
@@ -48,12 +48,12 @@ class Reader {
 		}
 	}
 
-	private void setTimeout() {
+	private void askTimeout() {
 		try {
 			this.profile.setTimeout(Integer.parseInt(takeUserInstruction("timeout")));
 		} catch (NumberFormatException e) {
 			System.out.println("Somente numeros!");
-			this.setTimeout();
+			this.askTimeout();
 		}
 	}
 
