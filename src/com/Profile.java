@@ -3,7 +3,6 @@ package com;
 import java.util.ArrayList;
 import java.util.List;
 
-
 class Profile {
 	private int loop;
 	private int timeout;
@@ -14,17 +13,18 @@ class Profile {
 		if (this.commands == null) {
 			List<String> commands = new ArrayList<String>();
 			for (String temp : command.split(";")) {
-				temp = temp.replaceAll("^\\s+", "").replaceAll("\\s+$","");				
+				temp = temp.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
 				if (temp.length() > 0)
 					commands.add(temp);
 			}
-			if(commands.size() > 0)
-				this.commands = (String[]) commands.toArray(new String[commands.size()]);
-		}		
+			if (commands.size() > 0)
+				this.commands = (String[]) commands.toArray(new String[commands
+						.size()]);
+		}
 	}
-	
-	public boolean isValid(){
-		 return this.commands != null;
+
+	public boolean isValid() {
+		return this.commands != null;
 	}
 
 	public boolean isConcurrent() {
@@ -44,7 +44,10 @@ class Profile {
 	}
 
 	public void setLoop(int loop) {
-		this.loop = loop;
+		if (loop > 10)
+			this.loop = 10;
+		else
+			this.loop = loop;
 	}
 
 	public void setTimeout(int timeout) {
@@ -70,7 +73,7 @@ class Profile {
 		this.reset();
 
 		return tasks;
-	}	
+	}
 
 	private void reset() {
 		this.loop = 0;
