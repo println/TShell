@@ -18,7 +18,7 @@ execute
 
 #####Run(second option using the jar package):
 
-Go to TShell's folder and execute:
+Make download of the TShell.jar and execute one the options below:
 
 	java -cp TShell.jar com.uff.sc.TShell
 or
