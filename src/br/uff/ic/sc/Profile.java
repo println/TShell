@@ -1,4 +1,4 @@
-package com.uff.sc;
+package br.uff.ic.sc;
 
 import java.util.ArrayList;
 import java.util.List;

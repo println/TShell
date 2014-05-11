@@ -1,4 +1,4 @@
-package com.uff.sc;
+package br.uff.ic.sc;
 
 import java.util.Scanner;
 
@@ -98,7 +98,9 @@ class Reader {
 	private String takeUserInstruction(String label) {
 		System.out.print(label + "> ");
 		Scanner scan = new Scanner(System.in);
-		return scan.nextLine();
+		String text = scan.nextLine();
+		scan.close();
+		return text;
 	}
 
 }

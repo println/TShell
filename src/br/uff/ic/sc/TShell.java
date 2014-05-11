@@ -1,4 +1,4 @@
-package com.uff.sc;
+package br.uff.ic.sc;
 /**
  * Classe inicial TShell
  * @author Felipe
