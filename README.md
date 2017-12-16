@@ -6,7 +6,7 @@ A Linux/Windows console command batch
 - Concurrency
 
 
-##### Run(first option):
+### How Run( method 1 - compile code and execute class):
 
 Go to TShell's folder and follow the steps:
 
@@ -18,7 +18,7 @@ execute
 	java br.uff.ic.sc.TShell
 
 
-##### Run(second option using the jar package):
+### How Run( method 2 - get jar and execute):
 
 Make download of the TShell.jar and execute one the options below:
 
