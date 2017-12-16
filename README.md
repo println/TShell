@@ -1,10 +1,12 @@
-#TShell
+# TShell
+A Linux/Windows console command batch
+
+### Tecnology
+- Java 7 
+- Concurrency
 
 
-###Shell Unix/Win command interpreter
-
-
-#####Run(first option):
+##### Run(first option):
 
 Go to TShell's folder and follow the steps:
 
@@ -16,7 +18,7 @@ execute
 	java br.uff.ic.sc.TShell
 
 
-#####Run(second option using the jar package):
+##### Run(second option using the jar package):
 
 Make download of the TShell.jar and execute one the options below:
 
