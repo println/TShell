@@ -1,5 +1,5 @@
 # TShell
-A Linux/Windows console command batch
+A Linux/Windows console command "batcher"
 
 ### Tecnology
 - Java 7 
